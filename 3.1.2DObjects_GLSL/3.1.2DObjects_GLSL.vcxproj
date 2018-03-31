@@ -95,7 +95,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>C:\usr\local\OpenGL\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;freeglut.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -155,17 +155,31 @@
     <ClCompile Include="3.1.2DObjects_GLSL.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="airplaneClass.cpp" />
     <ClCompile Include="axesClass.cpp" />
+    <ClCompile Include="car1Class.cpp" />
+    <ClCompile Include="car2Class.cpp" />
+    <ClCompile Include="cocktailClass.cpp" />
+    <ClCompile Include="houseClass.cpp" />
+    <ClCompile Include="lineClass.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Shaders\LoadShaders.cpp" />
+    <ClCompile Include="shirtClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="airplaneClass.h" />
     <ClInclude Include="axesClass.h" />
+    <ClInclude Include="car1Class.h" />
+    <ClInclude Include="car2Class.h" />
+    <ClInclude Include="cocktailClass.h" />
+    <ClInclude Include="houseClass.h" />
+    <ClInclude Include="lineClass.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Shaders\LoadShaders.h" />
+    <ClInclude Include="shirtClass.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

@@ -10,3 +10,10 @@
 
 #include "Object.h"
 #include "axesClass.h"
+#include "lineClass.h"
+#include "airplaneClass.h"
+#include "shirtClass.h"
+#include "houseClass.h"
+#include "car1Class.h"
+#include "cocktailClass.h"
+#include"car2Class.h"
