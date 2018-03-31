@@ -43,7 +43,9 @@ void cocktailClass::initObject() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
-void cocktailClass::drawObject() {
+void cocktailClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	calcUniforMat4(ViewProjectionMatrix);
+
 	glBindVertexArray(VAO_cocktail);
 
 	glUniform3fv(loc_primitive_color, 1, cocktail_color[COCKTAIL_NECK]);

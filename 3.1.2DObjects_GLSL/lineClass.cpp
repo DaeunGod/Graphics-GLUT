@@ -31,7 +31,14 @@ void lineClass::initObject(int win_width, int win_height) {
 	glBindVertexArray(0);
 }
 
-void lineClass::drawObject() {
+void lineClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+
+	/*ModelMatrix = glm::translate(ModelMatrix, m_position);
+	ModelViewProjectionMatrix = ViewProjectionMatrix * ModelMatrix;
+	glUniformMatrix4fv(loc_ModelViewProjectionMatrix, 1, GL_FALSE, &ModelViewProjectionMatrix[0][0]);*/
+	calcUniforMat4(ViewProjectionMatrix);
+
+
 	glUniform3fv(loc_primitive_color, 1, line_color);
 	glBindVertexArray(VAO_line);
 	glDrawArrays(GL_LINES, 0, 2);

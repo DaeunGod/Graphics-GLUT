@@ -30,7 +30,10 @@ void axesClass::initObject(int win_width, int win_height) {
 	glBindVertexArray(0);
 }
 
-void axesClass::drawObject() {
+void axesClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	//ModelViewProjectionMatrix = ViewProjectionMatrix * ModelMatrix;
+	//glUniformMatrix4fv(loc_ModelViewProjectionMatrix, 1, GL_FALSE, &ModelViewProjectionMatrix[0][0]);
+	calcUniforMat4(ViewProjectionMatrix);
 	glUniform3fv(loc_primitive_color, 1, axes_color);
 	glBindVertexArray(VAO_axes);
 	glDrawArrays(GL_LINES, 0, 4);

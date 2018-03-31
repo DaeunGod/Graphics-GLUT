@@ -50,7 +50,14 @@ void airplaneClass::initObject() {
 	glBindVertexArray(0);
 }
 
-void airplaneClass::drawObject() {
+void airplaneClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	/*ModelMatrix = glm::translate(ModelMatrix, m_position);
+	ModelViewProjectionMatrix = ViewProjectionMatrix * ModelMatrix;
+	glUniformMatrix4fv(loc_ModelViewProjectionMatrix, 1, GL_FALSE, &ModelViewProjectionMatrix[0][0]);*/
+	calcUniforMat4(ViewProjectionMatrix);
+
+	fprintf(stdout, "%f %f\n", m_position.x, m_position.y);
+
 	glBindVertexArray(VAO_airplane);
 
 	glUniform3fv(loc_primitive_color, 1, airplane_color[AIRPLANE_BIG_WING]);

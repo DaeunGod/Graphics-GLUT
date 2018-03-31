@@ -50,7 +50,9 @@ void car1Class::initObject() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
-void car1Class::drawObject() {
+void car1Class::drawObject(glm::mat4 ViewProjectionMatrix) {
+	calcUniforMat4(ViewProjectionMatrix);
+
 	glBindVertexArray(VAO_car);
 
 	glUniform3fv(loc_primitive_color, 1, car_color[CAR_BODY]);

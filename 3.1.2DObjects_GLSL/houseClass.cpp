@@ -9,10 +9,10 @@ GLfloat window[4][2] = { { 4.0, -6.0 },{ 4.0, -2.0 },{ 8.0, -2.0 },{ 8.0, -6.0 }
 
 GLfloat house_color[5][3] = {
 	{ 200 / 255.0f, 39 / 255.0f, 42 / 255.0f },
-{ 235 / 255.0f, 225 / 255.0f, 196 / 255.0f },
-{ 255 / 255.0f, 0 / 255.0f, 0 / 255.0f },
-{ 233 / 255.0f, 113 / 255.0f, 23 / 255.0f },
-{ 44 / 255.0f, 180 / 255.0f, 49 / 255.0f }
+	{ 235 / 255.0f, 225 / 255.0f, 196 / 255.0f },
+	{ 255 / 255.0f, 0 / 255.0f, 0 / 255.0f },
+	{ 233 / 255.0f, 113 / 255.0f, 23 / 255.0f },
+	{ 44 / 255.0f, 180 / 255.0f, 49 / 255.0f }
 };
 
 void houseClass::initObject() {
@@ -44,7 +44,9 @@ void houseClass::initObject() {
 	glBindVertexArray(0);
 }
 
-void houseClass::drawObject() {
+void houseClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	calcUniforMat4(ViewProjectionMatrix);
+
 	glBindVertexArray(VAO_house);
 
 	glUniform3fv(loc_primitive_color, 1, house_color[HOUSE_ROOF]);

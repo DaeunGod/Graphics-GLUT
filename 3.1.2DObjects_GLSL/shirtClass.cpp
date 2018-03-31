@@ -60,7 +60,9 @@ void shirtClass::initObject() {
 	glBindVertexArray(0);
 }
 
-void shirtClass::drawObject() {
+void shirtClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	calcUniforMat4(ViewProjectionMatrix);
+
 	glBindVertexArray(VAO_shirt);
 
 	glUniform3fv(loc_primitive_color, 1, shirt_color[SHIRT_LEFT_BODY]);

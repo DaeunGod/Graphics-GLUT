@@ -60,7 +60,7 @@ public:
 	}
 
 	virtual void initObject();
-	virtual void drawObject();
+	virtual void drawObject(glm::mat4 ViewProjectionMatrix);
 	virtual void updateObjcet();
 	virtual void cleanup();
 };

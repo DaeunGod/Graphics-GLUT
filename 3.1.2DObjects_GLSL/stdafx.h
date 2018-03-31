@@ -7,6 +7,8 @@
 
 #define LOC_VERTEX 0
 
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "Object.h"
 #include "axesClass.h"
@@ -17,3 +19,5 @@
 #include "car1Class.h"
 #include "cocktailClass.h"
 #include"car2Class.h"
+#include "cloudClass.h"
+#include "boxClass.h"

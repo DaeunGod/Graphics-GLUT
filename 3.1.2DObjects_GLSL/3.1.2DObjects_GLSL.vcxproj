@@ -157,8 +157,10 @@
     </ClCompile>
     <ClCompile Include="airplaneClass.cpp" />
     <ClCompile Include="axesClass.cpp" />
+    <ClCompile Include="boxClass.cpp" />
     <ClCompile Include="car1Class.cpp" />
     <ClCompile Include="car2Class.cpp" />
+    <ClCompile Include="cloudClass.cpp" />
     <ClCompile Include="cocktailClass.cpp" />
     <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="lineClass.cpp" />
@@ -172,8 +174,10 @@
   <ItemGroup>
     <ClInclude Include="airplaneClass.h" />
     <ClInclude Include="axesClass.h" />
+    <ClInclude Include="boxClass.h" />
     <ClInclude Include="car1Class.h" />
     <ClInclude Include="car2Class.h" />
+    <ClInclude Include="cloudClass.h" />
     <ClInclude Include="cocktailClass.h" />
     <ClInclude Include="houseClass.h" />
     <ClInclude Include="lineClass.h" />

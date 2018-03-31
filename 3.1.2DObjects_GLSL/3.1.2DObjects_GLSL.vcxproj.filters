@@ -16,6 +16,9 @@
     <Filter Include="소스 파일\Object">
       <UniqueIdentifier>{5b7042a6-6dc0-4d41-8680-2ea7a8863f2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\obj">
+      <UniqueIdentifier>{6eabb053-89f3-47cf-9943-545432cc5374}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shaders\LoadShaders.cpp">
@@ -30,28 +33,34 @@
     <ClCompile Include="Object.cpp">
       <Filter>소스 파일\Object</Filter>
     </ClCompile>
-    <ClCompile Include="axesClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="lineClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="airplaneClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Object</Filter>
     </ClCompile>
-    <ClCompile Include="shirtClass.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="houseClass.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="axesClass.cpp">
+      <Filter>소스 파일\Object</Filter>
     </ClCompile>
     <ClCompile Include="car1Class.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cocktailClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Object</Filter>
     </ClCompile>
     <ClCompile Include="car2Class.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cocktailClass.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="houseClass.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="lineClass.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="shirtClass.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cloudClass.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="boxClass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,34 +68,40 @@
     <ClInclude Include="Shaders\LoadShaders.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>소스 파일\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="axesClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="lineClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="airplaneClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="shirtClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="houseClass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="car1Class.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cocktailClass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\obj</Filter>
     </ClInclude>
     <ClInclude Include="car2Class.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="axesClass.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="car1Class.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="cocktailClass.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="houseClass.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="lineClass.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="shirtClass.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="cloudClass.h">
+      <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="boxClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

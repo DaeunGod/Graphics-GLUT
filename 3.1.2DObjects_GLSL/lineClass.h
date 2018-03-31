@@ -20,7 +20,7 @@ public:
 
 	virtual void initObject();
 	void initObject(int win_width, int win_height);
-	virtual void drawObject();
+	virtual void drawObject(glm::mat4 ViewProjectionMatrix);
 	virtual void updateObjcet();
 	virtual void cleanup();
 };
