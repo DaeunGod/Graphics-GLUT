@@ -33,6 +33,8 @@ boxClass *g_box[NUMBER_OF_BOXES];
 cloudClass *g_cloud;
 blockTileClass *g_blockTile[NUMBER_OF_BLOCKTILES];
 textClass *g_text;
+minimapClass *g_minimap;
+//minimapPointClass *g_minimapPoint;
 
 int airplane_clock = 0;
 float airplane_s_factor = 1.0f;
@@ -60,7 +62,9 @@ void keySpecialOperation() {
 
 void viewUpdate(int width, int height) {
 	glm::vec3 yourView = g_airPlane->getPosition();
-	yourView.y += 130.0f;
+	yourView.y += 140.0f;
+
+	//printf("%f %f\n", yourView.x-g_minimap->getPosition().x, yourView.y - g_minimap->getPosition().y);
 	//yourView.x = -170.0f;
 	if (g_airPlane->getPosition().x < -170.0f) {
 		yourView.x = -170.0f;
@@ -68,6 +72,16 @@ void viewUpdate(int width, int height) {
 	if (g_airPlane->getPosition().x > 170.0f) {
 		yourView.x = 170.0f;
 	}
+
+	g_minimap->setPosition(glm::vec3(yourView.x + 438.0f, yourView.y - 176.0f, 0.0f));
+	g_minimap->setHeroPosition(g_airPlane->getPosition());
+	for (int i = 0; i < NUMBER_OF_STRUCTURES; i++) {
+		glm::vec3 position = g_house[i]->getPosition();
+		position.y -= 60.0f;
+		g_minimap->setStructuresPosition(i, position);
+	}
+
+
 	ViewMatrix = glm::translate(glm::mat4(1.0f) , -yourView);
 	glViewport(0, 0, win_width, win_height);
 	glMatrixMode(GL_PROJECTION),
@@ -82,11 +96,11 @@ void display(void) {
 	//int i;
 	//float x, r, s, delx, delr, dels;
 	glm::mat4 ModelMatrix;
-	Object* obj = g_box[2];
+	Object* obj = g_airPlane;
 
 	keySpecialOperation();
 	
-	//printf("%f %f\n", obj->getPosition().x, obj->getPosition().y);
+	printf("%f %f\n", obj->getPosition().x, obj->getPosition().y);
 
 
 
@@ -120,6 +134,9 @@ void display(void) {
 	//g_cloud->drawObject(ViewProjectionMatrix);
 	g_text->drawObject(ViewProjectionMatrix);
 	g_airPlane->drawObject(ViewProjectionMatrix);
+
+	g_minimap->drawObject(ViewProjectionMatrix);
+	//g_minimapPoint->drawObject(ViewProjectionMatrix);
 
 	//glFlush();	
 	glutSwapBuffers();
@@ -260,6 +277,12 @@ void cleanup(void) {
 	}
 
 	delete g_text;
+
+	g_minimap->cleanup();
+	delete g_minimap;
+
+	/*g_minimapPoint->cleanup();
+	delete g_minimapPoint;*/
 }
 
 void register_callbacks(void) {
@@ -327,6 +350,11 @@ void prepare_scene(void) {
 
 	g_house[3]->initObject(HOUSE_SHOP);
 	g_house[3]->setPosition(glm::vec3(-534.0f, 114.0f, -30.0f));
+	g_house[3]->setColor(
+		glm::vec3(76.0f / 255.0f, 46.0f / 255.0f, 39.0f / 255.0f), glm::vec3(33.0f / 255.0f, 107.0f / 255.0f, 58.0f / 255.0f),
+		glm::vec3(249.0f / 255.0f, 191.0f / 255.0f, 30.0f / 255.0f), glm::vec3(211.0f / 255.0f, 179.0f / 255.0f, 132.0f / 255.0f),
+		glm::vec3(202.0f / 255.0f, 139.0f / 255.0f, 67.0f / 255.0f)
+	);
 
 	g_car1 = new car1Class(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	g_car1->initObject();
@@ -369,6 +397,14 @@ void prepare_scene(void) {
 	g_text = new textClass(loc_ModelViewProjectionMatrix, loc_primitive_color, "abadfasdfasdfasdfasdf");
 	//g_box->setScale(5.0f);
 	//prepare_car2();
+
+	g_minimap = new minimapClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+	g_minimap->initObject();
+	g_minimap->setPosition(glm::vec3(438.0f, -36.0f, 0.0f));
+
+	/*g_minimapPoint = new minimapPointClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+	g_minimapPoint->initObject();*/
+
 	
 }
 

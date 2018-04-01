@@ -57,7 +57,7 @@ void airplaneClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	calcUniforMat4(ViewProjectionMatrix);
 
 	m_angle = atan2f(mPastPosition.y - m_position.y, mPastPosition.x - m_position.x)*TO_DEGREE;
-	fprintf(stdout, "%f %f %f\n", m_angle, m_position.x, m_position.y);
+	//fprintf(stdout, "%f %f %f\n", m_angle, m_position.x, m_position.y);
 
 	glBindVertexArray(VAO_airplane);
 
