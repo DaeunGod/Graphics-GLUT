@@ -46,10 +46,10 @@ void lineClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 }
 
 void lineClass::updateObjcet() {
-	line[0][0] = (1.0f / 4.0f - 1.0f / 2.5f)*m_winSize.y;
+	/*line[0][0] = (1.0f / 4.0f - 1.0f / 2.5f)*m_winSize.y;
 	line[0][1] = (1.0f / 4.0f - 1.0f / 2.5f)*m_winSize.y - m_winSize.y / 4.0f;
 	line[1][0] = m_winSize.x / 2.5f;
-	line[1][1] = m_winSize.x / 2.5f - m_winSize.y / 4.0f;
+	line[1][1] = m_winSize.x / 2.5f - m_winSize.y / 4.0f;*/
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO_line);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(line), line, GL_STATIC_DRAW);
@@ -62,3 +62,9 @@ void lineClass::cleanup() {
 }
 
 
+void lineClass::setPosition(glm::vec2 p1, glm::vec2 p2) {
+	line[0][0] = p1.x;
+	line[0][1] = p1.y;
+	line[1][0] = p2.x;
+	line[1][1] = p2.y;
+}

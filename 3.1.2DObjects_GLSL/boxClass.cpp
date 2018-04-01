@@ -108,6 +108,8 @@ void boxClass::initObject() {
 	glBindVertexArray(0);
 }
 void boxClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	if (m_position.y < 20.0f)
+		m_position.y = 20.0f;
 	calcUniforMat4(ViewProjectionMatrix);
 
 	glBindVertexArray(VAO_box);

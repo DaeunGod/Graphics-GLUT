@@ -16,27 +16,76 @@ glm::mat4 ViewMatrix, ProjectionMatrix, ViewProjectionMatrix;
 int win_width = 0, win_height = 0; 
 float centerx = 0.0f, centery = 0.0f, rotate_angle = 0.0f;
 
+#define NUMBER_OF_HOUSES 2
 // MARK: Create Object;
 axesClass *g_axes;
 lineClass *g_line;
 airplaneClass *g_airPlane;
 shirtClass *g_shirt;
-houseClass *g_house;
+houseClass *g_house[NUMBER_OF_HOUSES];
 car1Class *g_car1;
 cocktailClass *g_cocktail;
 car2Class *g_car2;
 boxClass *g_box;
+swordClass *g_sword;
+cloudClass *g_cloud;
 
 int airplane_clock = 0;
 float airplane_s_factor = 1.0f;
+bool keyState[108] = { 0 };
+
+
+
+void keySpecialOperation() {
+	Object* obj = g_box;
+	if (obj != NULL) {
+		if (keyState[GLUT_KEY_LEFT] == true) {
+			obj->setPosition(obj->getPosition() - glm::vec3(3.0f, 0.0f, 0.0f));
+		}
+		if (keyState[GLUT_KEY_RIGHT] == true) {
+			obj->setPosition(obj->getPosition() + glm::vec3(3.0f, 0.0f, 0.0f));
+		}
+		if (keyState[GLUT_KEY_UP] == true) {
+			obj->setPosition(obj->getPosition() + glm::vec3(0.0f, 3.0f, 0.0f));
+		}
+		if (keyState[GLUT_KEY_DOWN] == true) {
+			obj->setPosition(obj->getPosition() - glm::vec3(0.0f, 3.0f, 0.0f));
+		}
+	}
+}
+
+void viewUpdate(int width, int height) {
+	glm::vec3 yourView = g_box->getPosition();
+	yourView.y += 130.0f;
+	if (g_box->getPosition().x < -170.0f) {
+		yourView.x = -170.0f;
+	}
+	if (g_box->getPosition().x > 170.0f) {
+		yourView.x = 170.0f;
+	}
+	ViewMatrix = glm::translate(glm::mat4(1.0f) , -yourView);
+	glViewport(0, 0, win_width, win_height);
+	glMatrixMode(GL_PROJECTION),
+		ProjectionMatrix = glm::ortho(-win_width / 2.0, win_width / 2.0,
+			-win_height / 2.0, win_height / 2.0, -1000.0, 1000.0);
+	ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
+	glMatrixMode(GL_MODELVIEW);
+}
+
 
 void display(void) {
 	int i;
 	float x, r, s, delx, delr, dels;
 	glm::mat4 ModelMatrix;
+	Object* obj = g_box;
+
+	keySpecialOperation();
+	
+	printf("%f %f\n", obj->getPosition().x, obj->getPosition().y);
+
+
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	
 	g_axes->drawObject(ViewProjectionMatrix);
 	/*g_line->drawObject(ViewProjectionMatrix);
 	g_airPlane->drawObject(ViewProjectionMatrix);
@@ -46,89 +95,138 @@ void display(void) {
 	
 	g_cocktail->drawObject(ViewProjectionMatrix);
 	g_car2->drawObject(ViewProjectionMatrix);*/
-
+	//g_box->setPosition(glm::vec3(-500.0f, 0.0f, 0.f));
+	for (int i = 0; i < NUMBER_OF_HOUSES; i++)
+	{
+		g_house[i]->drawObject(ViewProjectionMatrix);
+	}
+	g_line->drawObject(ViewProjectionMatrix);
+	g_sword->drawObject(ViewProjectionMatrix);
 	g_box->drawObject(ViewProjectionMatrix);
 	
+	g_cloud->drawObject(ViewProjectionMatrix);
 
 	//glFlush();	
 	glutSwapBuffers();
 	//glEnd();
+	viewUpdate(win_width, win_height);
+	glutPostRedisplay();
 }   
 
 void keyboard(unsigned char key, int x, int y) {
-	printf("%d\n", key);
+	//printf("%d", key);
 	switch (key) {
 	case 27: // ESC key
 		glutLeaveMainLoop(); // Incur destuction callback for cleanups.
 		break;
+	case 97:
+		//g_house->setScale(g_house->getScale().x+1);
+		break;
+	case 98:
+		//g_house->setScale(g_house->getScale().x - 1);
+		break;
 	}
 }
 
-void special(int key, int x, int y) {
-//#define SENSITIVITY 2.0
+void keySpecial(int key, int x, int y) {
 	switch (key) {
 	case GLUT_KEY_LEFT:
-		g_airPlane->setPosition(g_airPlane->getPosition() - glm::vec3(1.0f, 0.0f, 0.0f));
+		keyState[GLUT_KEY_LEFT] = true;
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_RIGHT:
+		keyState[GLUT_KEY_RIGHT] = true;
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_DOWN:
+		keyState[GLUT_KEY_DOWN] = true;
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_UP:
+		keyState[GLUT_KEY_UP] = true;
 		glutPostRedisplay();
 		break;
 	}
 }
 
+void keySpecialUp(int key, int x, int y) {
+	switch (key) {
+	case GLUT_KEY_LEFT:
+		keyState[GLUT_KEY_LEFT] = false;
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_RIGHT:
+		keyState[GLUT_KEY_RIGHT] = false;
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_DOWN:
+		keyState[GLUT_KEY_DOWN] = false;
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_UP:
+		keyState[GLUT_KEY_UP] = false;
+		glutPostRedisplay();
+		break;
+	}
+}
+
+
+
 void reshape(int width, int height) {
+	memset(keyState, 0, sizeof(keyState));
 	win_width = width, win_height = height;
-	
+	viewUpdate(win_width, win_height);
+	/*win_width = width, win_height = height;
+	ViewMatrix = glm::translate(ViewMatrix, g_box->getPosition());
   	glViewport(0, 0, win_width, win_height);
 	glMatrixMode(GL_PROJECTION),
 	ProjectionMatrix = glm::ortho(-win_width / 2.0, win_width / 2.0, 
 		-win_height / 2.0, win_height / 2.0, -1000.0, 1000.0);
-	ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
+	ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;*/
 
-	glMatrixMode(GL_MODELVIEW);
+	//glMatrixMode(GL_MODELVIEW);
 	g_axes->setWinSize(glm::vec2(win_width, win_height));
 	g_axes->updateObjcet();
 
 	g_line->setWinSize(glm::vec2(win_width, win_height));
+	g_line->setPosition(glm::vec2(-600.0f, 100.0f), glm::vec2(1024.0f, -100.0f));
 	g_line->updateObjcet();
+	
+	
 
 	glutPostRedisplay();
+}
+
+void mouseMotion(int x, int y) {
+	
 }
 
 void cleanup(void) {
 	g_axes->cleanup();
 	delete g_axes;
-
 	g_line->cleanup();
 	delete g_line;
-
 	g_airPlane->cleanup();
 	delete g_airPlane;
-
 	g_shirt->cleanup();
 	delete g_shirt;
-
-	g_house->cleanup();
-	delete g_house;
-
+	for (int i = 0; i < NUMBER_OF_HOUSES; i++)
+	{
+		g_house[i]->cleanup();
+		delete g_house[i];
+	}
 	g_car1->cleanup();
 	delete g_car1;
-
 	g_cocktail->cleanup();
 	delete g_cocktail;
-
 	g_car2->cleanup();
 	delete g_car2;
-
 	g_box->cleanup();
 	delete g_box;
+	g_sword->cleanup();
+	delete g_sword;
+	g_cloud->cleanup();
+	delete g_cloud;
 }
 
 void register_callbacks(void) {
@@ -136,7 +234,9 @@ void register_callbacks(void) {
 	glutKeyboardFunc(keyboard);
 	glutReshapeFunc(reshape);
 	glutCloseFunc(cleanup);
-	glutSpecialFunc(special);
+	glutSpecialFunc(keySpecial);
+	glutSpecialUpFunc(keySpecialUp);
+	glutMotionFunc(mouseMotion);
 }
 
 void prepare_shader_program(void) {
@@ -171,8 +271,20 @@ void prepare_scene(void) {
 	g_shirt = new shirtClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	g_shirt->initObject();
 	g_shirt->setScale(2.0f);
-	g_house = new houseClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
-	g_house->initObject();
+	for (int i = 0; i < NUMBER_OF_HOUSES; i++)
+	{
+		g_house[i] = new houseClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+		g_house[i]->initObject();
+		g_house[i]->setScale(9.0f);
+		g_house[i]->setPosition(glm::vec3(267.0f, 132.0f, -50.0f));
+	}
+	g_house[1]->setScale(8.0f);
+	g_house[1]->setPosition(glm::vec3(105.0f, 114.0f, -30.0f));
+	g_house[1]->setColor(
+		glm::vec3(185 /255.0f, 122 / 255.0f, 86 / 255.0f), glm::vec3(171 / 255.0f, 73 / 255.0f, 93 / 255.0f),
+		glm::vec3(88 / 255.0f, 88 / 255.0f, 88 / 255.0f), glm::vec3(160 / 255.0f, 122 / 255.0f, 100 / 255.0f),
+		glm::vec3( 0 / 255.0f, 168 / 255.0f, 243 / 255.0f)
+		);
 	g_car1 = new car1Class(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	g_car1->initObject();
 	g_cocktail = new cocktailClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
@@ -186,6 +298,14 @@ void prepare_scene(void) {
 
 	g_box = new boxClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	g_box->initObject();
+
+	g_sword = new swordClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+	g_sword->initObject();
+	g_sword->setScale(3.0f);
+	g_sword->setRotate(60.0f);
+
+	g_cloud = new cloudClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+	g_cloud->initObject();
 	//g_box->setScale(5.0f);
 	//prepare_car2();
 	
@@ -196,6 +316,7 @@ void initialize_renderer(void) {
 	prepare_shader_program(); 
 	initialize_OpenGL();
 	prepare_scene();
+	//glPolygonMode(GL_FRONT, GL_FILL);
 }
 
 void initialize_glew(void) {
@@ -237,7 +358,7 @@ int main(int argc, char *argv[]) {
 
 	glutInit (&argc, argv);
  	glutInitDisplayMode(GLUT_RGBA | GLUT_MULTISAMPLE | GLUT_DOUBLE);
-	glutInitWindowSize (1280, 1024);
+	glutInitWindowSize (1024, 500);
 	glutInitContextVersion(4, 0);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
 	glutCreateWindow(program_name);

@@ -170,6 +170,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Shaders\LoadShaders.cpp" />
     <ClCompile Include="shirtClass.cpp" />
+    <ClCompile Include="swordClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="airplaneClass.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Shaders\LoadShaders.h" />
     <ClInclude Include="shirtClass.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="swordClass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\simple.frag" />

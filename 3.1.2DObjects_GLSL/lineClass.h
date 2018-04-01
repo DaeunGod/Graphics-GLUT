@@ -23,5 +23,6 @@ public:
 	virtual void drawObject(glm::mat4 ViewProjectionMatrix);
 	virtual void updateObjcet();
 	virtual void cleanup();
+	void setPosition(glm::vec2 p1, glm::vec2 p2);
 };
 
