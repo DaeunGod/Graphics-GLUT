@@ -1,25 +1,30 @@
 #pragma once
 #include "Object.h"
 
-#define SWORD_BODY 0
-#define SWORD_BODY2 1
-#define SWORD_HEAD 2
-#define SWORD_HEAD2 3
-#define SWORD_IN 4
-#define SWORD_DOWN 5
-#define SWORD_BODY_IN 6
 
+
+enum ENUM_SWORD {
+	SWORD_BODY,
+	SWORD_BODY2,
+	SWORD_HEAD,
+	SWORD_HEAD2,
+	SWORD_IN,
+	SWORD_DOWN,
+	SWORD_BODY_IN
+};
 
 class swordClass :
 	public Object
 {
 private:
 	GLuint VBO_sword, VAO_sword;
-
+	int mRotateType;
+public:
+	void setRotateType(int rotateType) { mRotateType = rotateType; }
 public:
 	swordClass(GLint _loc_ModelViewProjectionMatrix, GLint _loc_primitive_color) :
 		Object(_loc_ModelViewProjectionMatrix, _loc_primitive_color) {
-
+		mRotateType = 0;
 	}
 	~swordClass() {
 

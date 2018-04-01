@@ -15,6 +15,25 @@ GLfloat window[4][2] = { { 4.0, -6.0 },{ 4.0, -2.0 },{ 8.0, -2.0 },{ 8.0, -6.0 }
 //	{ 44 / 255.0f, 180 / 255.0f, 49 / 255.0f }
 //};
 
+void houseClass::initObject(ENUM_HOUSE_TYPE newType) {
+	initObject();
+
+	houseType = newType;
+	if (houseType == HOUSE_ARMORY) {
+		mSword = new swordClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+		mSword->initObject();
+		mSword->setScale(2.0f);
+		mSword->setRotateType(1);
+		mSword->setRotate(0, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	if (houseType == HOUSE_SHOP) {
+		mShirt = new shirtClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+		mShirt->initObject();
+		mShirt->setScale(1.5f);
+	}
+}
+
 void houseClass::initObject() {
 	GLsizeiptr buffer_size = sizeof(roof) + sizeof(house_body) + sizeof(chimney) + sizeof(door)
 		+ sizeof(window);
@@ -42,6 +61,8 @@ void houseClass::initObject() {
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	
 }
 
 void houseClass::drawObject(glm::mat4 ViewProjectionMatrix) {
@@ -65,6 +86,15 @@ void houseClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	glDrawArrays(GL_TRIANGLE_FAN, 15, 4);
 
 	glBindVertexArray(0);
+
+	if (houseType == HOUSE_ARMORY) {
+		mSword->setPosition(m_position + glm::vec3(114.0f, -39.0f, 0.0f));
+		mSword->drawObject(ViewProjectionMatrix);
+	}
+	if (houseType == HOUSE_SHOP) {
+		mShirt->setPosition(m_position + glm::vec3(123.0f, -27.0f, 0.0f));
+		mShirt->drawObject(ViewProjectionMatrix);
+	}
 }
 
 void houseClass::updateObjcet() {
@@ -74,6 +104,14 @@ void houseClass::updateObjcet() {
 void houseClass::cleanup() {
 	glDeleteVertexArrays(1, &VAO_house);
 	glDeleteBuffers(1, &VBO_house);
+	if (houseType == HOUSE_ARMORY) {
+		mSword->cleanup();
+		delete mSword;
+	}
+	if (houseType == HOUSE_SHOP) {
+		mShirt->cleanup();
+		delete mShirt;
+	}
 }
 
 void houseClass::setColor(glm::vec3 roof, glm::vec3 body, glm::vec3 chimney, glm::vec3 door, glm::vec3 window) {

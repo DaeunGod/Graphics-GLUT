@@ -49,6 +49,10 @@ void swordClass::initObject() {
 void swordClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	calcUniforMat4(ViewProjectionMatrix);
 
+	if (mRotateType == 1) {
+		m_angle = int(m_angle + 10) % 360;
+	}
+
 	glBindVertexArray(VAO_sword);
 
 	glUniform3fv(loc_primitive_color, 1, sword_color[SWORD_BODY]);

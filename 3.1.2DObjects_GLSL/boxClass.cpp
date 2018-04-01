@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#include <string>
 
 //GLfloat left_bottom[4][2] = { { 0.0, 0.0 },{ 40.0, 40.0 }, { 40.0, 0.0 },{ 40.0, 0.0 } };
 //GLfloat left_bottom[4][2] = { { -20.0, -20.0 },{ 20.0, -20.0 } ,{ 10.0, 10.0 },{ -10.0f, 10.0f } };
@@ -108,8 +108,8 @@ void boxClass::initObject() {
 	glBindVertexArray(0);
 }
 void boxClass::drawObject(glm::mat4 ViewProjectionMatrix) {
-	if (m_position.y < 20.0f)
-		m_position.y = 20.0f;
+	if (m_position.y < 20.0f*m_scale.x)
+		m_position.y = 20.0f*m_scale.x;
 	calcUniforMat4(ViewProjectionMatrix);
 
 	glBindVertexArray(VAO_box);
@@ -159,6 +159,7 @@ void boxClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	glUniform3fv(loc_primitive_color, 1, box_color[16]);
 	glDrawArrays(GL_TRIANGLE_STRIP, 70, 4);
 
+	
 	glBindVertexArray(0);
 }
 void boxClass::updateObjcet() {

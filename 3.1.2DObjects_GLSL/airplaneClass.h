@@ -24,9 +24,12 @@ class airplaneClass :
 private:
 	GLuint VBO_airplane, VAO_airplane;
 
+	glm::vec3 mPastPosition;
+
 public:
 	airplaneClass(GLint _loc_ModelViewProjectionMatrix, GLint _loc_primitive_color) :
 		Object(_loc_ModelViewProjectionMatrix, _loc_primitive_color) {
+		mPastPosition = m_position;
 		/*big_wing[0][0] = 0.0f;		big_wing[0][1] = 0.0f;
 		big_wing[1][0] = -20.0f;	big_wing[1][1] = 15.0f;
 		big_wing[2][0] = -20.0f;	big_wing[2][1] = 20.0;
@@ -58,6 +61,8 @@ public:
 	~airplaneClass() {
 
 	}
+
+	void setPosition(glm::vec3 newPosition);
 
 	virtual void initObject();
 	virtual void drawObject(glm::mat4 ViewProjectionMatrix);

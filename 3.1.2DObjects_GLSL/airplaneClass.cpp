@@ -56,7 +56,8 @@ void airplaneClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	glUniformMatrix4fv(loc_ModelViewProjectionMatrix, 1, GL_FALSE, &ModelViewProjectionMatrix[0][0]);*/
 	calcUniforMat4(ViewProjectionMatrix);
 
-	fprintf(stdout, "%f %f\n", m_position.x, m_position.y);
+	m_angle = atan2f(mPastPosition.y - m_position.y, mPastPosition.x - m_position.x)*TO_DEGREE;
+	fprintf(stdout, "%f %f %f\n", m_angle, m_position.x, m_position.y);
 
 	glBindVertexArray(VAO_airplane);
 
@@ -92,4 +93,9 @@ void airplaneClass::updateObjcet() {
 void airplaneClass::cleanup() {
 	glDeleteVertexArrays(1, &VAO_airplane);
 	glDeleteBuffers(1, &VBO_airplane);
+}
+
+void airplaneClass::setPosition(glm::vec3 newPosition) {
+	mPastPosition = m_position;
+	m_position = newPosition;
 }

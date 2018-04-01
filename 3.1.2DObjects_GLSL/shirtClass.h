@@ -18,11 +18,12 @@ class shirtClass :
 {
 private:
 	GLuint VBO_shirt, VAO_shirt;
+	bool clockWise;
 
 public:
 	shirtClass(GLint _loc_ModelViewProjectionMatrix, GLint _loc_primitive_color) :
 		Object(_loc_ModelViewProjectionMatrix, _loc_primitive_color) {
-
+		clockWise = false;
 	}
 	~shirtClass() {
 

@@ -61,7 +61,18 @@ void shirtClass::initObject() {
 }
 
 void shirtClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	static float step = 2.5f;
 	calcUniforMat4(ViewProjectionMatrix);
+
+	m_angle += step;
+	if (m_angle > 50.0f) {
+		m_angle = 50.0f;
+		step *= -1;
+	}
+	if (m_angle < -50.0f) {
+		m_angle = -50.0f;
+		step *= -1;
+	}
 
 	glBindVertexArray(VAO_shirt);
 

@@ -22,3 +22,6 @@
 #include "cloudClass.h"
 #include "boxClass.h"
 #include "swordClass.h"
+#include "blockTileClass.h"
+#include "textClass.h"
+#include "minimapClass.h"

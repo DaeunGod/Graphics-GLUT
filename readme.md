@@ -3,7 +3,9 @@
 ## Computer Graphics HW
 
 ### 1. New object
-> box
+> Box
+> BlockTile
+> Minimap
 
 ### 2. Function
 > Screen Left and Right Scroll

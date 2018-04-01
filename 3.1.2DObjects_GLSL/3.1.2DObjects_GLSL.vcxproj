@@ -157,6 +157,7 @@
     </ClCompile>
     <ClCompile Include="airplaneClass.cpp" />
     <ClCompile Include="axesClass.cpp" />
+    <ClCompile Include="blockTileClass.cpp" />
     <ClCompile Include="boxClass.cpp" />
     <ClCompile Include="car1Class.cpp" />
     <ClCompile Include="car2Class.cpp" />
@@ -171,10 +172,12 @@
     <ClCompile Include="Shaders\LoadShaders.cpp" />
     <ClCompile Include="shirtClass.cpp" />
     <ClCompile Include="swordClass.cpp" />
+    <ClCompile Include="textClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="airplaneClass.h" />
     <ClInclude Include="axesClass.h" />
+    <ClInclude Include="blockTileClass.h" />
     <ClInclude Include="boxClass.h" />
     <ClInclude Include="car1Class.h" />
     <ClInclude Include="car2Class.h" />
@@ -187,6 +190,7 @@
     <ClInclude Include="shirtClass.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="swordClass.h" />
+    <ClInclude Include="textClass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\simple.frag" />
