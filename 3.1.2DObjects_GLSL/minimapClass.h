@@ -17,6 +17,7 @@ private:
 	GLuint VBO_minimap, VAO_minimap;
 	minimapPointClass *mMainMinimapPoint;
 	minimapPointClass *mStructuresPoint[NUMBER_OF_STRUCTURES];
+	bool isCollided;
 
 public:
 	minimapClass(GLint _loc_ModelViewProjectionMatrix, GLint _loc_primitive_color) :
@@ -24,11 +25,13 @@ public:
 		mMainMinimapPoint = NULL;
 		for (int i = 0; i < NUMBER_OF_STRUCTURES; i++)
 			mStructuresPoint[i] = NULL;
+		isCollided = false;
 	}
 	~minimapClass() {
 
 	}
 
+	void setCollided(bool collided) { isCollided = collided; }
 	void setStructuresPosition(int index, glm::vec3 Position);
 	void setHeroPosition(glm::vec3 characterPosition);
 	virtual void initObject();

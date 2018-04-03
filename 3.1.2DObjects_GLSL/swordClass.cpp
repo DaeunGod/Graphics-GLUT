@@ -47,11 +47,17 @@ void swordClass::initObject() {
 	glBindVertexArray(0);
 }
 void swordClass::drawObject(glm::mat4 ViewProjectionMatrix) {
+	if (mRotateType == 1) {
+		m_angle += 10;
+		if (m_angle >= 360)
+			m_angle -= 360;
+	}
+
+	m_position.y += 5.0f * cosf(m_angle*TO_RADIAN);
+
 	calcUniforMat4(ViewProjectionMatrix);
 
-	if (mRotateType == 1) {
-		m_angle = int(m_angle + 10) % 360;
-	}
+	
 
 	glBindVertexArray(VAO_sword);
 

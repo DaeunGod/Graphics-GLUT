@@ -56,7 +56,20 @@ void airplaneClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	glUniformMatrix4fv(loc_ModelViewProjectionMatrix, 1, GL_FALSE, &ModelViewProjectionMatrix[0][0]);*/
 	calcUniforMat4(ViewProjectionMatrix);
 
-	m_angle = atan2f(mPastPosition.y - m_position.y, mPastPosition.x - m_position.x)*TO_DEGREE;
+	if (mAirplaneType == AIRPLANE_NORMAL) {
+		if (m_position.y < 27.0f)
+			m_position.y = 27.0f;
+		if (m_position.x < -660.0f)
+			m_position.x = -660.0f;
+		if (m_position.x > 660.0f)
+			m_position.x = 660.0f;
+
+		mCollisionBox.x = m_position.x - 20.0f;
+		mCollisionBox.y = m_position.y - 25.0f;
+		mCollisionBox.z = m_position.x + 20.0f;
+		mCollisionBox.w = m_position.y + 25.0f;
+	}
+	//m_angle = atan2f(mPastPosition.y - m_position.y, mPastPosition.x - m_position.x)*TO_DEGREE;
 	//fprintf(stdout, "%f %f %f\n", m_angle, m_position.x, m_position.y);
 
 	glBindVertexArray(VAO_airplane);
@@ -96,6 +109,40 @@ void airplaneClass::cleanup() {
 }
 
 void airplaneClass::setPosition(glm::vec3 newPosition) {
-	mPastPosition = m_position;
+	//mPastPosition = m_position;
 	m_position = newPosition;
 }
+
+void airplaneClass::circularMotion() {
+	static int delay = 0;
+	static float tmpx = 0.0, tmpy = 0.0;
+	float dx, dy;
+	float centerx = 0.0f, centery = 300.0f;
+	centerx = m_position.x - 0, centery = m_position.y + 300.0f;
+	dx = centerx - tmpx;
+	dy = centery - tmpy;
+
+	if (dx > 0.0) {
+		m_angle = (atan(dy / dx) + 90.0f*TO_RADIAN)*TO_DEGREE;
+	}
+	else if (dx < 0.0) {
+		m_angle = (atan(dy / dx) - 90.0f*TO_RADIAN)*TO_DEGREE;
+	}
+	else if (dx == 0.0) {
+		if (dy > 0.0) m_angle = 180.0f;
+		else  m_angle = 0.0f;
+	}
+	tmpx = centerx, tmpy = centery;
+	
+	glm::vec3 pos = glm::vec3(mRadius * sinf(circularMotionAngle*TO_RADIAN), mRadius * cosf(circularMotionAngle*TO_RADIAN), 0.0f);
+	//printf("%f %f %f\n", m_position.x, m_position.y, m_angle);
+	//pos.x += 100.0f;
+	pos.y += 300.0f;
+	 
+	setPosition(pos);
+	circularMotionAngle += 3.0f;
+	//m_angle = circularMotionAngle;
+	if (circularMotionAngle >= 360)
+		circularMotionAngle -= 360;
+}
+

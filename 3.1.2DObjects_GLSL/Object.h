@@ -11,16 +11,20 @@ protected:
 	glm::vec3 m_scale;
 	glm::vec2 m_winSize;
 	glm::vec3 m_rotate;
+	glm::vec4 mCollisionBox;
 	float m_angle;
+	float circularMotionAngle;
 	//glm::mat4 ModelMatrix;
 	glm::mat4 ModelViewProjectionMatrix;
 
 	GLint loc_ModelViewProjectionMatrix;
 	GLint loc_primitive_color;
+	float mHeartMotionSize;
 
 	void calcUniforMat4(glm::mat4 ViewProjectionMatrix);
 
 public:
+	glm::vec4 getCollisionBox() {return mCollisionBox;}
 	void setWinSize(glm::vec2 newWinSize){ m_winSize = newWinSize; }
 	void setPosition(glm::vec3 newPosition) { m_position = newPosition; }
 	void setScale(glm::vec3 newScale) { m_scale = newScale; }
@@ -45,6 +49,8 @@ public:
 		m_winSize = glm::vec2(0.0f, 0.0f);
 		m_angle = 0;
 		m_rotate = glm::vec3(0.0f, 0.0f, 1.0f);
+		circularMotionAngle = 0.0f;
+		mHeartMotionSize = 6.0f;
 	}
 
 public:
@@ -53,5 +59,8 @@ public:
 	virtual void drawObject(glm::mat4 ViewProjectionMatrix) = 0;
 	virtual void updateObjcet() = 0;
 	virtual void cleanup() = 0;
+
+	static bool AABBIntersection(glm::vec4 v1, glm::vec4 v2);
+	void heartFuncMotion();
 
 };

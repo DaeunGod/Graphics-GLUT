@@ -62,6 +62,7 @@ void shirtClass::initObject() {
 
 void shirtClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	static float step = 2.5f;
+	m_position.y += 30.0f * cosf(m_angle*TO_RADIAN);
 	calcUniforMat4(ViewProjectionMatrix);
 
 	m_angle += step;

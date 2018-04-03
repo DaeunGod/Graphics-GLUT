@@ -3,7 +3,7 @@
 GLfloat minimap[5][2] = { { -70.0f, -70.0f },{ -70.0f, 70.0f } ,{ 70.0f, -70.0f },{ 70.0f, 70.0f },{ 70.0f, 0.0f } };
 
 GLfloat minimap_color[2][3] = {
-	{ 255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f },
+	{ 100.0f / 255.0f, 100.0f / 255.0f, 100.0f / 255.0f },
 };
 
 void minimapClass::initObject() {
@@ -43,8 +43,16 @@ void minimapClass::initObject() {
 void minimapClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 	calcUniforMat4(ViewProjectionMatrix);
 
+	mCollisionBox.x = m_position.x - 70.0f;
+	mCollisionBox.y = m_position.y - 75.0f;
+	mCollisionBox.z = m_position.x + 70.0f;
+	mCollisionBox.w = m_position.y + 75.0f;
 	
-
+	if (isCollided == true) {
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_COLOR);
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH);
+	}
 	glBindVertexArray(VAO_minimap);
 
 	glUniform3fv(loc_primitive_color, 1, minimap_color[0]);
@@ -58,6 +66,8 @@ void minimapClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 		mStructuresPoint[i]->setMinimapPosition(m_position);
 		mStructuresPoint[i]->drawObject(ViewProjectionMatrix);
 	}
+	glDisable(GL_BLEND);
+	glDisable(GL_DEPTH);
 }
 
 void minimapClass::updateObjcet() {

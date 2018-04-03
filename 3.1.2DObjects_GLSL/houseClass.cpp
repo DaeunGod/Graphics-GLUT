@@ -92,7 +92,7 @@ void houseClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 		mSword->drawObject(ViewProjectionMatrix);
 	}
 	if (houseType == HOUSE_SHOP) {
-		mShirt->setPosition(m_position + glm::vec3(123.0f, -27.0f, 0.0f));
+		mShirt->setPosition(m_position + glm::vec3(123.0f, -42.0f, 0.0f));
 		mShirt->drawObject(ViewProjectionMatrix);
 	}
 }

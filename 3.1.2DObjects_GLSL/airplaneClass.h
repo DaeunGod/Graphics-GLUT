@@ -17,19 +17,26 @@ enum ENUM_AIRPLANE{
 	AIRPLANE_SIDEWINDER2,
 	AIRPLANE_CENTER
 };
-
+enum ENUM_AIRPLANE_TYPE {
+	AIRPLANE_NORMAL,
+	AIRPLANE_CIRCULAR,
+};
 class airplaneClass :
 	public Object
 {
 private:
 	GLuint VBO_airplane, VAO_airplane;
-
+	float mRadius;
+	ENUM_AIRPLANE_TYPE mAirplaneType;
 	glm::vec3 mPastPosition;
 
 public:
 	airplaneClass(GLint _loc_ModelViewProjectionMatrix, GLint _loc_primitive_color) :
 		Object(_loc_ModelViewProjectionMatrix, _loc_primitive_color) {
 		mPastPosition = m_position;
+		mRadius = 0;
+		circularMotionAngle = 0;
+		mAirplaneType = AIRPLANE_NORMAL;
 		/*big_wing[0][0] = 0.0f;		big_wing[0][1] = 0.0f;
 		big_wing[1][0] = -20.0f;	big_wing[1][1] = 15.0f;
 		big_wing[2][0] = -20.0f;	big_wing[2][1] = 20.0;
@@ -62,8 +69,11 @@ public:
 
 	}
 
+	
+	void circularMotion();
 	void setPosition(glm::vec3 newPosition);
-
+	void setRadius(float radius) { mRadius = radius; }
+	void setType(ENUM_AIRPLANE_TYPE type) { mAirplaneType = type; }
 	virtual void initObject();
 	virtual void drawObject(glm::mat4 ViewProjectionMatrix);
 	virtual void updateObjcet();

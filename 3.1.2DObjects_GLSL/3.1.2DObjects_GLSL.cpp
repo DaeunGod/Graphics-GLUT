@@ -19,10 +19,12 @@ float centerx = 0.0f, centery = 0.0f, rotate_angle = 0.0f;
 #define NUMBER_OF_HOUSES 4
 #define NUMBER_OF_BLOCKTILES 88
 #define NUMBER_OF_BOXES 5
+#define NUMBER_OF_AIRPLANES 2
+#define NUMBER_OF_HEARTOBJ 100
 // MARK: Create Object;
 axesClass *g_axes;
 lineClass *g_line;
-airplaneClass *g_airPlane;
+airplaneClass *g_airPlane[NUMBER_OF_AIRPLANES];
 //shirtClass *g_shirt;
 houseClass *g_house[NUMBER_OF_HOUSES];
 car1Class *g_car1;
@@ -34,8 +36,10 @@ cloudClass *g_cloud;
 blockTileClass *g_blockTile[NUMBER_OF_BLOCKTILES];
 textClass *g_text;
 minimapClass *g_minimap;
+boxClass* g_heartObj[NUMBER_OF_HEARTOBJ];
 //minimapPointClass *g_minimapPoint;
 
+int heartobjcount = 0;
 int airplane_clock = 0;
 float airplane_s_factor = 1.0f;
 bool keyState[108] = { 0 };
@@ -43,7 +47,7 @@ bool keyState[108] = { 0 };
 
 
 void keySpecialOperation() {
-	Object* obj = g_airPlane;
+	Object* obj = g_airPlane[0];
 	if (obj != NULL) {
 		if (keyState[GLUT_KEY_LEFT] == true) {
 			obj->setPosition(obj->getPosition() - glm::vec3(3.0f, 0.0f, 0.0f));
@@ -61,20 +65,20 @@ void keySpecialOperation() {
 }
 
 void viewUpdate(int width, int height) {
-	glm::vec3 yourView = g_airPlane->getPosition();
+	glm::vec3 yourView = g_airPlane[0]->getPosition();
 	yourView.y += 140.0f;
 
 	//printf("%f %f\n", yourView.x-g_minimap->getPosition().x, yourView.y - g_minimap->getPosition().y);
 	//yourView.x = -170.0f;
-	if (g_airPlane->getPosition().x < -170.0f) {
+	if (g_airPlane[0]->getPosition().x < -170.0f) {
 		yourView.x = -170.0f;
 	}
-	if (g_airPlane->getPosition().x > 170.0f) {
+	if (g_airPlane[0]->getPosition().x > 170.0f) {
 		yourView.x = 170.0f;
 	}
 
 	g_minimap->setPosition(glm::vec3(yourView.x + 438.0f, yourView.y - 176.0f, 0.0f));
-	g_minimap->setHeroPosition(g_airPlane->getPosition());
+	g_minimap->setHeroPosition(g_airPlane[0]->getPosition());
 	for (int i = 0; i < NUMBER_OF_STRUCTURES; i++) {
 		glm::vec3 position = g_house[i]->getPosition();
 		position.y -= 60.0f;
@@ -96,27 +100,27 @@ void display(void) {
 	//int i;
 	//float x, r, s, delx, delr, dels;
 	glm::mat4 ModelMatrix;
-	Object* obj = g_airPlane;
+	Object* obj = g_airPlane[0];
+
+	
 
 	keySpecialOperation();
-	
-	printf("%f %f\n", obj->getPosition().x, obj->getPosition().y);
-
+	//g_airPlane[1]->heartFuncMotion();
+	for (int i = 0; i < heartobjcount; i++) {
+		g_heartObj[i]->heartFuncMotion();
+	}
+	g_minimap->setCollided(Object::AABBIntersection(
+		g_airPlane[0]->getCollisionBox(),
+		g_minimap->getCollisionBox()
+	));
+	//printf("%f %f\n", g_heartObj->getPosition().x, g_heartObj->getPosition().y);
 
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	g_axes->drawObject(ViewProjectionMatrix);
 	
-	/*g_line->drawObject(ViewProjectionMatrix);
-	g_airPlane->drawObject(ViewProjectionMatrix);
-	g_shirt->drawObject(ViewProjectionMatrix);
-	g_house->drawObject(ViewProjectionMatrix);
-	g_car1->drawObject(ViewProjectionMatrix);
 	
-	g_cocktail->drawObject(ViewProjectionMatrix);
-	g_car2->drawObject(ViewProjectionMatrix);*/
-	//g_box->setPosition(glm::vec3(-500.0f, 0.0f, 0.f));
 
 	for (int i = 0; i < NUMBER_OF_HOUSES; i++)
 	{
@@ -125,19 +129,19 @@ void display(void) {
 	for (int i = 0; i < NUMBER_OF_BLOCKTILES; i++) {
 		g_blockTile[i]->drawObject(ViewProjectionMatrix);
 	}
-	//g_line->drawObject(ViewProjectionMatrix);
-	//g_sword->drawObject(ViewProjectionMatrix);
 	for (int i = 0; i < NUMBER_OF_BOXES; i++) {
 		g_box[i]->drawObject(ViewProjectionMatrix);
 	}
-	//g_shirt->drawObject(ViewProjectionMatrix);
-	//g_cloud->drawObject(ViewProjectionMatrix);
 	g_text->drawObject(ViewProjectionMatrix);
-	g_airPlane->drawObject(ViewProjectionMatrix);
+	for (int i = 0; i < NUMBER_OF_AIRPLANES; i++) {
+		g_airPlane[i]->drawObject(ViewProjectionMatrix);
+	}
 
 	g_minimap->drawObject(ViewProjectionMatrix);
-	//g_minimapPoint->drawObject(ViewProjectionMatrix);
-
+	
+	for (int i = 0; i < heartobjcount; i++) {
+		g_heartObj[i]->drawObject(ViewProjectionMatrix);
+	}
 	//glFlush();	
 	glutSwapBuffers();
 	//glEnd();
@@ -240,8 +244,10 @@ void cleanup(void) {
 	g_line->cleanup();
 	delete g_line;
 
-	g_airPlane->cleanup();
-	delete g_airPlane;
+	for (int i = 0; i < NUMBER_OF_AIRPLANES; i++) {
+		g_airPlane[i]->cleanup();
+		delete g_airPlane[i];
+	}
 
 	//g_shirt->cleanup();
 	//delete g_shirt;
@@ -281,9 +287,33 @@ void cleanup(void) {
 	g_minimap->cleanup();
 	delete g_minimap;
 
+	for (int i = 0; i < heartobjcount; i++) {
+		g_heartObj[i]->cleanup();
+		delete g_heartObj[i];
+	}
+
 	/*g_minimapPoint->cleanup();
 	delete g_minimapPoint;*/
 }
+
+void timer(int)
+{
+	//g_airPlane[1]->circularMotion();
+	//printf("timer\n");
+	/* update animation */
+	//glutPostRedisplay();
+	//glutTimerFunc(100, timer, 0);
+	g_heartObj[heartobjcount] = new boxClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+	g_heartObj[heartobjcount]->initObject();
+	g_heartObj[heartobjcount]->setScale(0.3f);
+	g_heartObj[heartobjcount]->setPosition(glm::vec3(0.0f, 100.0f, 0.0f));
+
+	if (heartobjcount < NUMBER_OF_HEARTOBJ) {
+		heartobjcount++;
+		glutTimerFunc(100, timer, 0);
+	}
+}
+
 
 void register_callbacks(void) {
 	glutDisplayFunc(display);
@@ -293,6 +323,7 @@ void register_callbacks(void) {
 	glutSpecialFunc(keySpecial);
 	glutSpecialUpFunc(keySpecialUp);
 	glutMotionFunc(mouseMotion);
+	glutTimerFunc(100, timer, 0);
 }
 
 void prepare_shader_program(void) {
@@ -322,9 +353,12 @@ void prepare_scene(void) {
 	g_axes->initObject(win_width, win_height);
 	g_line = new lineClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	g_line->initObject(win_width, win_height);
-	g_airPlane = new airplaneClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
-	g_airPlane->initObject();
-	g_airPlane->setRotate(180);
+	for (int i = 0; i < NUMBER_OF_AIRPLANES; i++) {
+		g_airPlane[i] = new airplaneClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+		g_airPlane[i]->initObject();
+		g_airPlane[i]->setRotate(180);
+		g_airPlane[i]->setRadius(70.0f);
+	}
 	//g_shirt = new shirtClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	//g_shirt->initObject();
 	//g_shirt->setScale(1.5f);
@@ -335,10 +369,10 @@ void prepare_scene(void) {
 	}
 	g_house[0]->initObject();
 	g_house[0]->setScale(9.0f);
-	g_house[0]->setPosition(glm::vec3(267.0f, 128.0f, -50.0f));
+	g_house[0]->setPosition(glm::vec3(337.0f, 128.0f, -50.0f));
 
 	g_house[1]->initObject();
-	g_house[1]->setPosition(glm::vec3(105.0f, 114.0f, -30.0f));
+	g_house[1]->setPosition(glm::vec3(175.0f, 114.0f, -30.0f));
 	g_house[1]->setColor(
 		glm::vec3(185 / 255.0f, 122 / 255.0f, 86 / 255.0f), glm::vec3(171 / 255.0f, 73 / 255.0f, 93 / 255.0f),
 		glm::vec3(88 / 255.0f, 88 / 255.0f, 88 / 255.0f), glm::vec3(160 / 255.0f, 122 / 255.0f, 100 / 255.0f),
@@ -406,6 +440,8 @@ void prepare_scene(void) {
 	g_minimapPoint->initObject();*/
 
 	
+
+	
 }
 
 void initialize_renderer(void) {
@@ -459,6 +495,8 @@ int main(int argc, char *argv[]) {
 	glutInitContextVersion(4, 0);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
 	glutCreateWindow(program_name);
+
+	
 
 	greetings(program_name, messages, N_MESSAGE_LINES);
 	initialize_renderer();

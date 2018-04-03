@@ -165,9 +165,6 @@
     <ClCompile Include="cocktailClass.cpp" />
     <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="lineClass.cpp" />
-    <ClCompile Include="main.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="minimapClass.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Shaders\LoadShaders.cpp" />
