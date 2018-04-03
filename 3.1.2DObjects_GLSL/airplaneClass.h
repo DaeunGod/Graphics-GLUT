@@ -29,6 +29,7 @@ private:
 	float mRadius;
 	ENUM_AIRPLANE_TYPE mAirplaneType;
 	glm::vec3 mPastPosition;
+	
 
 public:
 	airplaneClass(GLint _loc_ModelViewProjectionMatrix, GLint _loc_primitive_color) :
@@ -74,6 +75,7 @@ public:
 	void setPosition(glm::vec3 newPosition);
 	void setRadius(float radius) { mRadius = radius; }
 	void setType(ENUM_AIRPLANE_TYPE type) { mAirplaneType = type; }
+	
 	virtual void initObject();
 	virtual void drawObject(glm::mat4 ViewProjectionMatrix);
 	virtual void updateObjcet();

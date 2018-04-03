@@ -20,6 +20,8 @@ protected:
 	GLint loc_ModelViewProjectionMatrix;
 	GLint loc_primitive_color;
 	float mHeartMotionSize;
+	float mElapedTime;
+	float mTimeStep;
 
 	void calcUniforMat4(glm::mat4 ViewProjectionMatrix);
 
@@ -29,6 +31,8 @@ public:
 	void setPosition(glm::vec3 newPosition) { m_position = newPosition; }
 	void setScale(glm::vec3 newScale) { m_scale = newScale; }
 	void setScale(float newScale) { m_scale = glm::vec3(newScale, newScale, 0.0f); }
+	void setElapedTime(float elp) { mElapedTime =  elp; }
+	void setTimeStep(float ts) { mTimeStep = ts; }
 	const glm::vec3 getScale() { return m_scale; }
 	const glm::vec3 getPosition() { return m_position;  }
 	const glm::mat4 getPositionMat4() {
@@ -51,6 +55,8 @@ public:
 		m_rotate = glm::vec3(0.0f, 0.0f, 1.0f);
 		circularMotionAngle = 0.0f;
 		mHeartMotionSize = 6.0f;
+		mElapedTime = 0.0f;
+		mTimeStep = 0.1f;
 	}
 
 public:
@@ -62,5 +68,9 @@ public:
 
 	static bool AABBIntersection(glm::vec4 v1, glm::vec4 v2);
 	void heartFuncMotion();
+	void sinFuncMotion();
+	void cosFuncMotion();
+	void lerp(glm::vec3 target);
+
 
 };

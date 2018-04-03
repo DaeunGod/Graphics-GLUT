@@ -43,7 +43,9 @@ int heartobjcount = 0;
 int airplane_clock = 0;
 float airplane_s_factor = 1.0f;
 bool keyState[108] = { 0 };
+int shapeType = 0;
 
+void lerptimer(int);
 
 
 void keySpecialOperation() {
@@ -107,7 +109,12 @@ void display(void) {
 	keySpecialOperation();
 	//g_airPlane[1]->heartFuncMotion();
 	for (int i = 0; i < heartobjcount; i++) {
-		g_heartObj[i]->heartFuncMotion();
+		if (shapeType == 0)
+			g_heartObj[i]->heartFuncMotion();
+		else if (shapeType == 1)
+			g_heartObj[i]->sinFuncMotion();
+		else if (shapeType == 2)
+			g_heartObj[i]->cosFuncMotion();
 	}
 	g_minimap->setCollided(Object::AABBIntersection(
 		g_airPlane[0]->getCollisionBox(),
@@ -155,7 +162,11 @@ void keyboard(unsigned char key, int x, int y) {
 	case 27: // ESC key
 		glutLeaveMainLoop(); // Incur destuction callback for cleanups.
 		break;
-	case 97:
+	case 97:/* KEY A */
+		lerptimer(0);
+		shapeType++;
+		shapeType = shapeType % 3;
+		
 		//g_sword->setScale(g_sword->getScale().x+1);
 		break;
 	case 98:
@@ -306,11 +317,18 @@ void timer(int)
 	g_heartObj[heartobjcount] = new boxClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	g_heartObj[heartobjcount]->initObject();
 	g_heartObj[heartobjcount]->setScale(0.3f);
-	g_heartObj[heartobjcount]->setPosition(glm::vec3(0.0f, 100.0f, 0.0f));
+	g_heartObj[heartobjcount]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
 	if (heartobjcount < NUMBER_OF_HEARTOBJ) {
 		heartobjcount++;
 		glutTimerFunc(100, timer, 0);
+	}
+}
+void lerptimer(int)
+{
+	for (int i = 0; i < heartobjcount; i++) {
+		g_heartObj[i]->setElapedTime(0.0f);
+		g_heartObj[i]->setTimeStep(0.001f);
 	}
 }
 
@@ -324,6 +342,7 @@ void register_callbacks(void) {
 	glutSpecialUpFunc(keySpecialUp);
 	glutMotionFunc(mouseMotion);
 	glutTimerFunc(100, timer, 0);
+	//glutTimerFunc(500, lerptimer, 0);
 }
 
 void prepare_shader_program(void) {
