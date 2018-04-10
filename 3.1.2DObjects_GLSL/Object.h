@@ -22,13 +22,14 @@ protected:
 	float mHeartMotionSize;
 	float mElapedTime;
 	float mTimeStep;
+	int mMotionType;
 
 	void calcUniforMat4(glm::mat4 ViewProjectionMatrix);
 
 public:
 	glm::vec4 getCollisionBox() {return mCollisionBox;}
 	void setWinSize(glm::vec2 newWinSize){ m_winSize = newWinSize; }
-	void setPosition(glm::vec3 newPosition) { m_position = newPosition; }
+	virtual void setPosition(glm::vec3 newPosition) { m_position = newPosition; }
 	void setScale(glm::vec3 newScale) { m_scale = newScale; }
 	void setScale(float newScale) { m_scale = glm::vec3(newScale, newScale, 0.0f); }
 	void setElapedTime(float elp) { mElapedTime =  elp; }
@@ -57,6 +58,7 @@ public:
 		mHeartMotionSize = 6.0f;
 		mElapedTime = 0.0f;
 		mTimeStep = 0.1f;
+		mMotionType = 0;
 	}
 
 public:
@@ -71,6 +73,11 @@ public:
 	void sinFuncMotion();
 	void cosFuncMotion();
 	void lerp(glm::vec3 target);
+	void setMotionType(int type) { mMotionType = type; }
+	int getMotionType() { return mMotionType; }
 
 
 };
+
+
+//48*48

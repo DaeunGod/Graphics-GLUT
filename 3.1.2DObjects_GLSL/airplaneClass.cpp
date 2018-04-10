@@ -69,6 +69,11 @@ void airplaneClass::drawObject(glm::mat4 ViewProjectionMatrix) {
 		mCollisionBox.z = m_position.x + 20.0f;
 		mCollisionBox.w = m_position.y + 25.0f;
 	}
+
+
+	
+	
+
 	//m_angle = atan2f(mPastPosition.y - m_position.y, mPastPosition.x - m_position.x)*TO_DEGREE;
 	//fprintf(stdout, "%f %f %f\n", m_angle, m_position.x, m_position.y);
 
@@ -110,6 +115,33 @@ void airplaneClass::cleanup() {
 
 void airplaneClass::setPosition(glm::vec3 newPosition) {
 	//mPastPosition = m_position;
+	static float tmpx = 0.0, tmpy = 0.0;
+	float dx, dy;
+	float centerx = 0.0f, centery = 300.0f;
+	//centerx = m_position.x - newPosition.x, centery = m_position.y - newPosition.y;
+	centerx = newPosition.x - m_position.x, centery = newPosition.y - m_position.y;
+	centerx *= -1;
+	//centerx = -m_position.x, centery = -m_position.y;
+	//centerx = newPosition.x, centery = newPosition.y;
+	//dx = centerx - tmpx;
+	//dy = centery - tmpy;
+	dx = newPosition.x - m_position.x;
+	dy = newPosition.y - m_position.y;
+	m_angle = (atan(dy / dx) + 90.0f*TO_RADIAN)*TO_DEGREE;
+	if (dx > 0.0) {
+		m_angle = (atan(dy / dx) + 90.0f*TO_RADIAN)*TO_DEGREE;
+	}
+	else if (dx < 0.0) { 
+		m_angle = (atan(dy / dx) - 90.0f*TO_RADIAN)*TO_DEGREE;
+	}
+	else if (dx == 0.0) {
+		if (dy > 0.0) m_angle = 180.0f;
+		else  m_angle = 0.0f;
+	}
+	//printf("%f\n", m_angle);
+	tmpx = centerx, tmpy = centery;
+
+
 	m_position = newPosition;
 }
 

@@ -37,9 +37,11 @@ blockTileClass *g_blockTile[NUMBER_OF_BLOCKTILES];
 textClass *g_text;
 minimapClass *g_minimap;
 boxClass* g_heartObj[NUMBER_OF_HEARTOBJ];
+//marcoClass *g_marco;
 //minimapPointClass *g_minimapPoint;
 
-int heartobjcount = 0;
+int heartobjCreatecount = 0;
+int heartobjCurrent = 0;
 int airplane_clock = 0;
 float airplane_s_factor = 1.0f;
 bool keyState[108] = { 0 };
@@ -108,12 +110,13 @@ void display(void) {
 
 	keySpecialOperation();
 	//g_airPlane[1]->heartFuncMotion();
-	for (int i = 0; i < heartobjcount; i++) {
-		if (shapeType == 0)
+	for (int i = 0; i < heartobjCreatecount; i++) {
+		int type = shapeType;//g_heartObj[i]->getMotionType();
+		if (type == 0)
 			g_heartObj[i]->heartFuncMotion();
-		else if (shapeType == 1)
+		else if (type == 1)
 			g_heartObj[i]->sinFuncMotion();
-		else if (shapeType == 2)
+		else if (type == 2)
 			g_heartObj[i]->cosFuncMotion();
 	}
 	g_minimap->setCollided(Object::AABBIntersection(
@@ -125,7 +128,7 @@ void display(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	g_axes->drawObject(ViewProjectionMatrix);
+	//g_axes->drawObject(ViewProjectionMatrix);
 	
 	
 
@@ -140,15 +143,17 @@ void display(void) {
 		g_box[i]->drawObject(ViewProjectionMatrix);
 	}
 	g_text->drawObject(ViewProjectionMatrix);
-	for (int i = 0; i < NUMBER_OF_AIRPLANES; i++) {
+	for (int i = 0; i < NUMBER_OF_AIRPLANES-1; i++) {
 		g_airPlane[i]->drawObject(ViewProjectionMatrix);
 	}
 
 	g_minimap->drawObject(ViewProjectionMatrix);
 	
-	for (int i = 0; i < heartobjcount; i++) {
+	for (int i = 0; i < heartobjCreatecount; i++) {
 		g_heartObj[i]->drawObject(ViewProjectionMatrix);
 	}
+
+	//g_marco->drawObject(ViewProjectionMatrix);
 	//glFlush();	
 	glutSwapBuffers();
 	//glEnd();
@@ -164,6 +169,8 @@ void keyboard(unsigned char key, int x, int y) {
 		break;
 	case 97:/* KEY A */
 		lerptimer(0);
+		heartobjCurrent = 0;
+		//glutTimerFunc(100, lerptimer, 0);
 		shapeType++;
 		shapeType = shapeType % 3;
 		
@@ -298,10 +305,13 @@ void cleanup(void) {
 	g_minimap->cleanup();
 	delete g_minimap;
 
-	for (int i = 0; i < heartobjcount; i++) {
+	for (int i = 0; i < heartobjCreatecount; i++) {
 		g_heartObj[i]->cleanup();
 		delete g_heartObj[i];
 	}
+
+	//g_marco->cleanup();
+	//delete g_marco;
 
 	/*g_minimapPoint->cleanup();
 	delete g_minimapPoint;*/
@@ -314,21 +324,26 @@ void timer(int)
 	/* update animation */
 	//glutPostRedisplay();
 	//glutTimerFunc(100, timer, 0);
-	g_heartObj[heartobjcount] = new boxClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
-	g_heartObj[heartobjcount]->initObject();
-	g_heartObj[heartobjcount]->setScale(0.3f);
-	g_heartObj[heartobjcount]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	g_heartObj[heartobjCreatecount] = new boxClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+	g_heartObj[heartobjCreatecount]->initObject();
+	g_heartObj[heartobjCreatecount]->setScale(0.3f);
+	g_heartObj[heartobjCreatecount]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
-	if (heartobjcount < NUMBER_OF_HEARTOBJ) {
-		heartobjcount++;
+	if (heartobjCreatecount < NUMBER_OF_HEARTOBJ) {
+		heartobjCreatecount++;
 		glutTimerFunc(100, timer, 0);
 	}
 }
 void lerptimer(int)
 {
-	for (int i = 0; i < heartobjcount; i++) {
+	for (int i = 0; i < heartobjCreatecount; i++) {
 		g_heartObj[i]->setElapedTime(0.0f);
 		g_heartObj[i]->setTimeStep(0.001f);
+		g_heartObj[i]->setMotionType(shapeType);
+	/*if (heartobjCurrent < heartobjCreatecount && heartobjCurrent < NUMBER_OF_HEARTOBJ) {
+		heartobjCurrent++;
+		glutTimerFunc(100, lerptimer, 0);
+	}*/
 	}
 }
 
@@ -457,6 +472,9 @@ void prepare_scene(void) {
 
 	/*g_minimapPoint = new minimapPointClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
 	g_minimapPoint->initObject();*/
+
+	//g_marco = new marcoClass(loc_ModelViewProjectionMatrix, loc_primitive_color);
+	//g_marco->initObject();
 
 	
 

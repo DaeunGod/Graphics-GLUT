@@ -25,3 +25,4 @@
 #include "blockTileClass.h"
 #include "textClass.h"
 #include "minimapClass.h"
+#include "marcoClass.h"

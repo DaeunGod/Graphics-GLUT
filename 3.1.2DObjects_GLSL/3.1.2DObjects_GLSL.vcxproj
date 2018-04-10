@@ -165,6 +165,7 @@
     <ClCompile Include="cocktailClass.cpp" />
     <ClCompile Include="houseClass.cpp" />
     <ClCompile Include="lineClass.cpp" />
+    <ClCompile Include="marcoClass.cpp" />
     <ClCompile Include="minimapClass.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Shaders\LoadShaders.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="cocktailClass.h" />
     <ClInclude Include="houseClass.h" />
     <ClInclude Include="lineClass.h" />
+    <ClInclude Include="marcoClass.h" />
     <ClInclude Include="minimapClass.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Shaders\LoadShaders.h" />

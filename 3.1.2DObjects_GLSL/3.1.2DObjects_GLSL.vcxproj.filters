@@ -72,6 +72,9 @@
     <ClCompile Include="minimapClass.cpp">
       <Filter>소스 파일\Object</Filter>
     </ClCompile>
+    <ClCompile Include="marcoClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shaders\LoadShaders.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="minimapClass.h">
       <Filter>헤더 파일\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="marcoClass.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

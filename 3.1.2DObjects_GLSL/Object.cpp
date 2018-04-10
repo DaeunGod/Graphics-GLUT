@@ -31,9 +31,9 @@ void Object::heartFuncMotion() {
 	//m_angle = circularMotionAngle;
 	if (circularMotionAngle >= 360) {
 		circularMotionAngle -= 360;
-		mHeartMotionSize -= 1.0f;
-		if (mHeartMotionSize < 4.0f)
-			mHeartMotionSize = 6.0f;
+		//mHeartMotionSize -= 1.0f;
+		//if (mHeartMotionSize < 4.0f)
+			//mHeartMotionSize = 6.0f;
 	}
 }
 
@@ -50,7 +50,7 @@ void Object::sinFuncMotion() {
 	//m_angle = circularMotionAngle;
 	if (circularMotionAngle >= 720) {
 		circularMotionAngle -= 720;
-		setPosition(glm::vec3(-150.0f + circularMotionAngle, 70 * sin(circularMotionAngle*TO_RADIAN), 0.0f));
+		setPosition(glm::vec3(-150.0f + circularMotionAngle, 300.0f+70 * sin(circularMotionAngle*TO_RADIAN), 0.0f));
 	}
 }
 
@@ -67,7 +67,7 @@ void Object::cosFuncMotion() {
 	//m_angle = circularMotionAngle;
 	if (circularMotionAngle >= 720) {
 		circularMotionAngle -= 720;
-		setPosition(glm::vec3(-150.0f + circularMotionAngle, 70 * sin(circularMotionAngle*TO_RADIAN), 0.0f));
+		setPosition(glm::vec3(-150.0f + circularMotionAngle, 300.0f+70 * cos(circularMotionAngle*TO_RADIAN), 0.0f));
 	}
 }
 
